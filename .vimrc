@@ -16,6 +16,8 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sjl/badwolf'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'majutsushi/tagbar'
+Plugin 'tpope/vim-fugitive'
 
 call vundle#end()
 
@@ -75,13 +77,26 @@ set matchtime=2            " time to blink match {}
 set matchpairs+=<:>        " for ci< or ci>
 set showmatch              " tmp jump to match-bracket
 
+" Abbrev
+iabbrev #i #include
 
 " Keybindings
 let mapleader=","
+let maplocalleader = "\\"
 
 " Quickly edit/source .vimrc
-noremap <leader>ve :edit ~/.vimrc<CR>
-noremap <leader>vs :source ~/.vimrc<CR>
+" noremap <leader>ve :edit ~/.vimrc<CR>
+nnoremap <leader>ve :vsplit $MYVIMRC<CR>
+nnoremap <leader>vs :source $MYVIMRC<CR>
+nnoremap <leader><space> :nohlsearch<CR>
+
+" wrap up with "
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
+
+" improver
+inoremap jk <esc>
+inoremap <esc> <nop>
 
 " Toggle the NERDTree file browser
 noremap <F2> :NERDTreeToggle<CR>
@@ -90,7 +105,20 @@ noremap <F2> :NERDTreeToggle<CR>
 set pastetoggle=<F3>
 
 " Toggle taglist (definitions, functions etc.)
-map <F4> <ESC>:TlistToggle<CR>
+nnoremap <F8> :TagbarToggle<CR>
 
 " autocmd
 autocmd FileType make set noexpandtab
+
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Airline plugin
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set laststatus=2
+"let g:airline_powerline_fonts = 1                          " Use Powerline fonts to show beautiful symbols
+let g:airline_theme = 'murmur'                              " Select 'murmur' theme as default one
+let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
+let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
+let g:airline#extensions#tabline#enabled = 1                " Display tab bar with buffers
+let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
+let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
+let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
