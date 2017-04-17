@@ -2,6 +2,7 @@ set nocompatible   " be iMproved
 filetype off
 set helplang=ru    " help on my native language
 
+" Plugin settings ---------------- {{{
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -20,6 +21,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
 
 call vundle#end()
+" }}}
 
 " General settings
 set encoding=utf-8         " set UTF-8 encodeing
@@ -84,35 +86,60 @@ iabbrev #i #include
 let mapleader=","
 let maplocalleader = "\\"
 
-" Quickly edit/source .vimrc
-" noremap <leader>ve :edit ~/.vimrc<CR>
+" Keymap ---------------------------------------{{{
+" edit .vimrc
 nnoremap <leader>ve :vsplit $MYVIMRC<CR>
+" source .vimrc
 nnoremap <leader>vs :source $MYVIMRC<CR>
+" turn off hlsearch
 nnoremap <leader><space> :nohlsearch<CR>
-
-" wrap up with "
+" toggle the NERDTree file browser
+noremap <F2> :NERDTreeToggle<CR>
+" wrap up with " in normal mode
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+" toggle taglist (definitions, functions etc.)
+nnoremap <F8> :TagbarToggle<CR>
+" move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+" wrap up with " in visual mode
 vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
-
-" improver
+" improver: escape from insert mode
 inoremap jk <esc>
 inoremap <esc> <nop>
-
-" Toggle the NERDTree file browser
-noremap <F2> :NERDTreeToggle<CR>
-
-" Toggle pastemode, doesn't indent
+" toggle pastemode, doesn't indent
 set pastetoggle=<F3>
+" spell checking
+nnoremap <F7> :set spell!<CR> 
+inoremap <F7> <Esc>:set spell!<CR>
+vnoremap <F7> <Esc>:set spell!<CR>
+" }}}
 
-" Toggle taglist (definitions, functions etc.)
-nnoremap <F8> :TagbarToggle<CR>
+" Spell checking ---------------------------------{{{
+set spelllang=en,ru
 
-" autocmd
-autocmd FileType make set noexpandtab
+highlight clear SpellBad 
+highlight SpellBad ctermfg=Red 
 
-" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Airline plugin
-" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+highlight clear SpellCap 
+highlight SpellCap ctermfg=Blue 
+
+highlight clear SpellLocal 
+highlight SpellLocal ctermfg=Green
+" }}}
+
+" Augroup ----------------------------------------{{{
+augroup filetype_make
+    autocmd!
+    autocmd FileType make set noexpandtab
+augroup END
+
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
+" Airline plugin ---------------------------------{{{
 set laststatus=2
 "let g:airline_powerline_fonts = 1                          " Use Powerline fonts to show beautiful symbols
 let g:airline_theme = 'murmur'                              " Select 'murmur' theme as default one
@@ -122,3 +149,4 @@ let g:airline#extensions#tabline#enabled = 1                " Display tab bar wi
 let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
 let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
 let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
+" }}}
