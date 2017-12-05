@@ -98,8 +98,8 @@ vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
 " improver
 inoremap jk <esc>
 inoremap <esc> <nop>
-nonoremap H ^
-nonoremap L $
+nnoremap H ^
+nnoremap L $
 
 " Toggle the NERDTree file browser
 noremap <F2> :NERDTreeToggle<CR>
