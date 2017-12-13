@@ -15,24 +15,28 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sjl/badwolf'
-"Plugin 'Valloric/YouCompleteMe'
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'fatih/vim-go'
+Plugin 'cespare/vim-toml'
+Plugin 'Shougo/neocomplete.vim'
 
 call vundle#end()
+
+"filetype plugin on
 
 " General settings
 set encoding=utf-8         " set UTF-8 encodeing
 set fileencoding=utf-8
 set termencoding=utf-8
-set hidden                 " buffer change, more ndo
+set hidden                 " do not unload buffer when it abandoned
 set history=200            " more history
 set laststatus=2           " always show statusline
 set noshowmode             " hide mode in status line
 set noexrc                 " do not use other .*rc(s)
 set list                   " display listchars
 set list listchars=tab:>·,trail:·,extends:>
+set colorcolumn=160
 
 " Interface general
 set cursorline             " highlite cursor line
@@ -91,6 +95,12 @@ nnoremap <leader>ve :vsplit $MYVIMRC<CR>
 nnoremap <leader>vs :source $MYVIMRC<CR>
 nnoremap <leader><space> :nohlsearch<CR>
 
+" walk through buffers
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+
 " wrap up with "
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
@@ -98,8 +108,6 @@ vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
 " improver
 inoremap jk <esc>
 inoremap <esc> <nop>
-nnoremap H ^
-nnoremap L $
 
 " Toggle the NERDTree file browser
 noremap <F2> :NERDTreeToggle<CR>
@@ -126,62 +134,25 @@ let g:airline#extensions#branch#enabled = 1                 " Enable Git client 
 let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
 let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
 
-"------------------------------------------------------------------------------
-" Vim-go
-"------------------------------------------------------------------------------
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "gofmt" "Explicited the formater plugin (gofmt, goimports, goreturn...)
 
-" Show a list of interfaces which is implemented by the type under your cursor
-au FileType go nmap <Leader>s <Plug>(go-implements)
+" neocomplete
 
-" Show type info for the word under your cursor
-au FileType go nmap <Leader>i <Plug>(go-info)
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-" Open the relevant Godoc for the word under the cursor
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ }
 
-" Open the Godoc in browser
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-
-" Run/build/test/coverage
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-
-" By default syntax-highlighting for Functions, Methods and Structs is disabled.
-" Let's enable them!
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-
-nmap <F8> :TagbarToggle<CR>
-let g:tagbar_type_go = {  
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
