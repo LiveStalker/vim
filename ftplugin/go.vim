@@ -52,3 +52,4 @@ nmap <buffer><leader>c <Plug>(go-coverage)
 
 " Abbreviations
 iabbrev <buffer> imp import
+iabbrev <buffer> :: <space>:=

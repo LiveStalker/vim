@@ -1,100 +1,142 @@
-set nocompatible   " be iMproved
+set nocompatible              " be iMproved, required
 filetype off
-set helplang=ru    " help on my native language
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " Plugins
+""" Plugin manager
 Plugin 'VundleVim/Vundle.vim'
+
+""" Git
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+
+""" Go
+Plugin 'fatih/vim-go'
+
+""" Bash
 Plugin 'vim-scripts/bash-support.vim'
+
+""" Clang
 Plugin 'WolfgangMehner/c-support'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'scrooloose/nerdtree'
+
+""" Appearance and layout
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sjl/badwolf'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'vim-scripts/peaksea'
+
+""" Misc
+Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'fatih/vim-go'
-Plugin 'cespare/vim-toml'
 Plugin 'Shougo/neocomplete.vim'
+Plugin 'cespare/vim-toml'
+Plugin 'nelstrom/vim-markdown-folding'
 
 call vundle#end()
+filetype plugin indent on
 
-"filetype plugin on
-
-" General settings
-set encoding=utf-8         " set UTF-8 encodeing
+" Encoding
+set encoding=utf-8
 set fileencoding=utf-8
 set termencoding=utf-8
-set hidden                 " do not unload buffer when it abandoned
-set history=200            " more history
-set laststatus=2           " always show statusline
-set noshowmode             " hide mode in status line
-set noexrc                 " do not use other .*rc(s)
-set list                   " display listchars
-set list listchars=tab:>·,trail:·,extends:>
-set colorcolumn=160
 
-" Interface general
-set cursorline             " highlite cursor line
-set more                   " -more- like less
-set number                 " line numbers
-set scrolloff=3            " lines above/below cursor
-set showcmd                " show cmds being typed
-set title                  " window title
-set wildmenu               " better cmd-completion (wildmode=full)
+" General
+"""""""""""""""""""""""""""""""""""""""""""""""""
+set history=500      " set how many lines of history VIM has to remember
+set autoread         " set to auto read when a file is changed the outside
+set noexrc           " do not use other .*rc(s)
+set ffs=unix,dos,mac " use Unix as the standard file type
 
-" Syntax highlighting
-filetype plugin indent on  " enable ft+plugin detect
-syntax on                  " syntax highlightning
-set t_Co=256               " 256-colors
-set background=dark        " using dark background
-colors jellybeans          " color schema
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader=","
+let maplocalleader = "\\"
 
-" Indent
+" VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""
+set hidden                  " do not unload buffer when it abandoned
+set cursorline              " highlite cursor line
+set more                    " -more- like less
+set number                  " line numbers
+set scrolloff=7             " lines above/below cursor
+set showcmd                 " show cmds being typed
+set title                   " window title
+set wildmenu                " better cmd-completion (wildmode=full)
+set wildignore=*.o,*~,*.pyc " ignore compiled files
+set noshowmode              " hide mode in status line
+set laststatus=2            " always show statusline
+
+" search
+set ignorecase              " case insensitive search
+set smartcase               " undo ignorecase if pattern contain Upper letters
+set hlsearch                " highlight all search results
+set incsearch               " "live"-search
+
+" match
+set showmatch               " show matching brackets when text indicator is over them
+set matchtime=2             " time to blink match brackets
+set matchpairs+=<:>         " additional brackets
+
+set noerrorbells            " no annoying sound on errors
+set novisualbell
+set t_vb=
+
+set timeoutlen=500
+
+" fold
+set foldcolumn=1            " fold column
+set foldmethod=indent       " folds using indent
+set foldnestmax=10          " max 10 nested folds
+set foldlevelstart=99       " folds open by default
+
+" indent
 set autoindent             " use indentation of previous line
 set smartindent            " use intelligent indentation for C
 set tabstop=4              " tab width is 4 spaces
-set shiftwidth=4           " indent also with 4 spaces
 set expandtab              " expand tabs to spaces
+set softtabstop=4          " soft like tabstop
+set shiftwidth=4           " indent also with 4 spaces
 set nowrap                 " do not wrap lines
 set noequalalways          " do not maintain window-size ratio (when having multiple window splits I don't find it desirable)
 set textwidth=120          " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
 
-" Folding
-set foldcolumn=0           " hide folding column
-set foldmethod=indent      " folds using indent
-set foldnestmax=10         " max 10 nested folds
-set foldlevelstart=99      " folds open by default
+set list                    " display listchars
+set listchars=tab:>·,trail:·,extends:>
 
-" Search
-set gdefault               " default s//g (global)
-set smartcase              " Undo ignorecase if pattern contain Upper letters
-set incsearch              " "live"-search
-set ignorecase             " case insensitive search
-set hlsearch               " highlight all search results
+set colorcolumn=160         " higlight 160 column
 
-" Matching
-set matchtime=2            " time to blink match {}
-set matchpairs+=<:>        " for ci< or ci>
-set showmatch              " tmp jump to match-bracket
+" Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""
+syntax enable
+set t_Co=256                " 256-colors
+set background=dark         " using dark background
+colors jellybeans           " color schema
 
-" Abbrev
-iabbrev #i #include
+" Mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" improver
+inoremap jk <esc>
+inoremap <esc> <nop>
 
-" Keybindings
-let mapleader=","
-let maplocalleader = "\\"
+" Fast saving
+nnoremap <leader>w :w!<cr>
 
-" Quickly edit/source .vimrc
-" noremap <leader>ve :edit ~/.vimrc<CR>
+" quickly edit/source .vimrc
 nnoremap <leader>ve :vsplit $MYVIMRC<CR>
 nnoremap <leader>vs :source $MYVIMRC<CR>
+
+" turn off hlsearch
 nnoremap <leader><space> :nohlsearch<CR>
+
+" turn on/off listchars
+nnoremap <leader>l :set list!<CR>
+
+" toggle current fold open/closed
+nnoremap <Space> za
 
 " walk through buffers
 nnoremap <silent> [b :bprevious<CR>
@@ -102,59 +144,11 @@ nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
 
-" wrap up with "
-nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
-
-" improver
-inoremap jk <esc>
-inoremap <esc> <nop>
-
-" Toggle the NERDTree file browser
+" toggle the NERDTree file browser
 noremap <F2> :NERDTreeToggle<CR>
 
-" Toggle pastemode, doesn't indent
+" toggle pastemode, doesn't indent
 set pastetoggle=<F3>
 
-" Toggle taglist (definitions, functions etc.)
+" toggle taglist (definitions, functions etc.)
 nnoremap <F8> :TagbarToggle<CR>
-
-" autocmd
-autocmd FileType make set noexpandtab
-
-" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Airline plugin
-" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set laststatus=2
-"let g:airline_powerline_fonts = 1                          " Use Powerline fonts to show beautiful symbols
-let g:airline_theme = 'murmur'                              " Select 'murmur' theme as default one
-let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
-let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
-let g:airline#extensions#tabline#enabled = 1                " Display tab bar with buffers
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
-let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
-let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
-
-
-" neocomplete
-
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
