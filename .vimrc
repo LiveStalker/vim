@@ -152,3 +152,38 @@ set pastetoggle=<F3>
 
 " toggle taglist (definitions, functions etc.)
 nnoremap <F8> :TagbarToggle<CR>
+
+" Plugin specific options
+"""""""""""""""""""""""""""""""""""""""""""""""""
+" airline plugin
+"let g:airline_powerline_fonts = 1                          " Use Powerline fonts to show beautiful symbols
+let g:airline_theme = 'murmur'                              " Select 'murmur' theme as default one
+let g:airline_inactive_collapse = 0                         " Do not collapse the status line while having multiple windows
+let g:airline#extensions#whitespace#enabled = 0             " Do not check for whitespaces
+let g:airline#extensions#tabline#enabled = 1                " Display tab bar with buffers
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#branch#enabled = 1                 " Enable Git client integration
+let g:airline#extensions#tagbar#enabled = 1                 " Enable Tagbar integration
+let g:airline#extensions#hunks#enabled = 1                  " Enable Git hunks integration
+
+" neocomplete
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
